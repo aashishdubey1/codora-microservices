@@ -1,6 +1,11 @@
 import type { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 
+import { ProblemRepository } from "../repositories/problems.repository";
+import { ProblemService } from "../services/problem.service";
+
+const problemService = new ProblemService(new ProblemRepository());
+
 export class ProblemController {
   async addProblem(
     req: Request,
