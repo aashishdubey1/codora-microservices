@@ -10,6 +10,7 @@ import morgan from "morgan";
 import serverConfig from "./config/server.config";
 import logger from "./config/logger.config";
 import { StatusCodes } from "http-status-codes";
+import redis from "./config/redis.config";
 
 const app: Express = express();
 
@@ -23,6 +24,7 @@ app.get("/health", (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ success: true, message: "OK" });
 });
 
-app.listen(serverConfig.PORT, () => {
+app.listen(serverConfig.PORT, async () => {
   logger.info(`server is running on port ${serverConfig.PORT}`);
+  await redis.connect();
 });
