@@ -12,6 +12,7 @@ const redis = new Redis({
   port: Number(serverConfig.REDIS_PORT!),
   host: serverConfig.REDIS_HOST,
   lazyConnect: true,
+  maxRetriesPerRequest: null,
 });
 
 redis.on("ready", () => {
