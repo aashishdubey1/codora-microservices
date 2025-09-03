@@ -31,7 +31,7 @@ app.get("/health", (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ success: true, message: "OK" });
 });
 
-app.get("/api", apiRoutes);
+app.use("/api", apiRoutes);
 
 const serverAdapter = new ExpressAdapter();
 serverAdapter.setBasePath("/admin/queues");

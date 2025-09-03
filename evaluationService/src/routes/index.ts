@@ -1,15 +1,8 @@
-import {
-  Router,
-  type NextFunction,
-  type Request,
-  type Response,
-} from "express";
-import { addJob } from "../producers/sampleProducers";
+import { Router } from "express";
+import v1Routes from "./v1/submission.routes";
 
 const router = Router();
 
-router.get("/add", (req: Request, res: Response, next: NextFunction) => {
-  addJob("sampleJob", req.body);
-});
+router.use("/v1", v1Routes);
 
 export default router;
