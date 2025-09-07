@@ -16,6 +16,7 @@ import sampleWorker from "./workers/sampleWorker";
 import { addJob } from "./producers/sampleProducers";
 import apiRoutes from "./routes";
 import serverAdapter from "./config/bullBoard.config";
+import { runPython } from "./containers/runPythonDocker";
 
 const app: Express = express();
 
@@ -43,4 +44,9 @@ app.listen(serverConfig.PORT, async () => {
   // });
 
   // sampleWorker("sampleQueue");
+
+  const code = `x = input()
+y = input()
+print("value of x is",x,y)`;
+  await runPython(code, "100\n200");
 });

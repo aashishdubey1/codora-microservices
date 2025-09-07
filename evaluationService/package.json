@@ -9,6 +9,7 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/cors": "^2.8.19",
+    "@types/dockerode": "^3.3.43",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.3",
     "@types/ioredis": "^5.0.0",
@@ -23,6 +24,7 @@
     "@bull-board/express": "^6.12.7",
     "bullmq": "^5.58.4",
     "cors": "^2.8.5",
+    "dockerode": "^4.0.7",
     "dotenv": "^17.2.1",
     "evaluationservice": ".",
     "express": "^5.1.0",
