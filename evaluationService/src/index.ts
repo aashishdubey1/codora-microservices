@@ -18,6 +18,7 @@ import apiRoutes from "./routes";
 import serverAdapter from "./config/bullBoard.config";
 import { runPython } from "./containers/runPythonDocker";
 import { runJava } from "./containers/runJavaDocker";
+import { runCpp } from "./containers/runCppDocker";
 
 const app: Express = express();
 
@@ -40,21 +41,17 @@ app.listen(serverConfig.PORT, async () => {
   await redis.connect();
 
   const javaCode = `
-import java.util.Scanner;
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter an integer value:");
-        String xAsString = sc.nextLine();
-        int x = Integer.parseInt(xAsString);
-        System.out.println("Value of x is " + x);
-        for(int i = 0 ; i < x ; i++){
-          System.out.println(i);
-        }
-        sc.close();
-    }
+// Test this code - works fine without stdbuf:
+#include <iostream>
+using namespace std;
+
+int main() {
+    string name;
+    getline(cin, name);
+    cout << "Hello " << name << endl;
+    return 0;
 }
 `;
 
-  await runJava(javaCode, "50");
+  await runCpp(javaCode, "Aashish");
 });
