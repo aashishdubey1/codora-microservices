@@ -12,13 +12,12 @@ import serverConfig from "./config/server.config";
 import logger from "./config/logger.config";
 import { StatusCodes } from "http-status-codes";
 import redis from "./config/redis.config";
-import sampleWorker from "./workers/sampleWorker";
-import { addJob } from "./producers/sampleProducers";
 import apiRoutes from "./routes";
 import serverAdapter from "./config/bullBoard.config";
-import { runPython } from "./containers/runPythonDocker";
-import { runJava } from "./containers/runJavaDocker";
-import { runCpp } from "./containers/runCppDocker";
+import { addSubmissionJob } from "./producers/submissionProducers";
+import { SubmissionJob } from "./jobs/submissionJob";
+import { SUBMISSION_QUEUE } from "./utils/constants";
+import { worker } from "./workers/submissionWorker";
 
 const app: Express = express();
 
@@ -40,18 +39,12 @@ app.listen(serverConfig.PORT, async () => {
   logger.info(`server is running on port ${serverConfig.PORT}`);
   await redis.connect();
 
-  const javaCode = `
-// Test this code - works fine without stdbuf:
-#include <iostream>
-using namespace std;
+  await addSubmissionJob({
+    language: "python",
+    code: "print('hello')",
+    userId: "232232",
+    problemId: "fdfdffdfdf",
+  });
 
-int main() {
-    string name;
-    getline(cin, name);
-    cout << "Hello " << name << endl;
-    return 0;
-}
-`;
-
-  await runCpp(javaCode, "Aashish");
+  worker(SUBMISSION_QUEUE);
 });
